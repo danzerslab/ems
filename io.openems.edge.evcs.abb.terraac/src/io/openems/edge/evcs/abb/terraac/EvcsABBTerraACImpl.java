@@ -31,7 +31,6 @@ import io.openems.edge.bridge.modbus.api.element.UnsignedDoublewordElement;
 import io.openems.edge.bridge.modbus.api.element.UnsignedWordElement;
 import io.openems.edge.bridge.modbus.api.task.FC16WriteRegistersTask;
 import io.openems.edge.bridge.modbus.api.task.FC3ReadRegistersTask;
-import io.openems.edge.bridge.modbus.api.task.FC6WriteRegisterTask;
 import io.openems.edge.common.channel.value.Value;
 import io.openems.edge.common.component.OpenemsComponent;
 import io.openems.edge.common.event.EdgeEventConstants;
@@ -58,8 +57,7 @@ import io.openems.edge.evcs.abb.terraac.enums.ChargePointState;
 public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 		implements EvcsABBTerraAC, Evcs, ManagedEvcs, ModbusComponent, OpenemsComponent, EventHandler {
 
-	private static final int DEFAULT_LIFE_BIT = 1;
-	private static final int DETECT_PHASE_ACTIVITY = 100; // W
+	private static final int DETECT_PHASE_ACTIVITY = 100; // mA
 
 	private final Logger log = LoggerFactory.getLogger(EvcsABBTerraAC.class);
 
@@ -130,80 +128,34 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 		this._setChargingType(ChargingType.AC);
 		this._setFixedMinimumHardwarePower(config.minHwCurrent() / 1000 * 3 * 230);
 		this._setFixedMaximumHardwarePower(config.maxHwCurrent() / 1000 * 3 * 230);
-		/*
-		 * TODO: PowerPrecision need to be tested if it is really a 1A step because for
-		 * limits set as power [W], is is normally PowerPrecision of 1 (Anyways, Channel
-		 * is no used for now)
-		 */
 		this._setPowerPrecision(230);
 	}
 
 	@Override
 	protected ModbusProtocol defineModbusProtocol() throws OpenemsException {
-		// Cannot read the gaps, therefore there are so many tasks
 		var modbusProtocol = new ModbusProtocol(this, //
-				new FC3ReadRegistersTask(1000, Priority.HIGH,
-						m(EvcsABBTerraAC.ChannelId.CHARGE_POINT_STATE, new UnsignedWordElement(1000)), //
-						new DummyRegisterElement(1001), // Charge State - Set already by the WriteHandler
-						m(EvcsABBTerraAC.ChannelId.EVSE_STATE, new UnsignedWordElement(1002))), //
-				new FC3ReadRegistersTask(1004, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.CABLE_STATE, new UnsignedWordElement(1004))), //
-				new FC3ReadRegistersTask(1006, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.EVSE_ERROR_CODE, new UnsignedWordElement(1006))),
-				new FC3ReadRegistersTask(1008, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.CURRENT_L1, new UnsignedWordElement(1008))),
-				new FC3ReadRegistersTask(1010, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.CURRENT_L2, new UnsignedWordElement(1010))),
-				new FC3ReadRegistersTask(1012, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.CURRENT_L3, new UnsignedWordElement(1012))),
-				new FC3ReadRegistersTask(1020, Priority.HIGH,
-						m(Evcs.ChannelId.CHARGE_POWER, new UnsignedDoublewordElement(1020))),
-				new FC3ReadRegistersTask(1024, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.POWER_L1, new UnsignedDoublewordElement(1024))),
-				new FC3ReadRegistersTask(1028, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.POWER_L2, new UnsignedDoublewordElement(1028))),
-				new FC3ReadRegistersTask(1032, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.POWER_L3, new UnsignedDoublewordElement(1032))),
-				new FC3ReadRegistersTask(1036, Priority.LOW,
-						m(Evcs.ChannelId.ACTIVE_CONSUMPTION_ENERGY, new UnsignedDoublewordElement(1036))),
-				new FC3ReadRegistersTask(1100, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.MAX_HW_CURRENT, new UnsignedWordElement(1100))),
-				new FC3ReadRegistersTask(1102, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.MIN_HW_CURRENT, new UnsignedWordElement(1102))),
-				new FC3ReadRegistersTask(1104, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.MAX_EVSE_CURRENT, new UnsignedWordElement(1104))),
-				new FC3ReadRegistersTask(1106, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.MAX_CABLE_CURRENT, new UnsignedWordElement(1106))),
-				new FC3ReadRegistersTask(1108, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.MAX_EV_CURRENT, new UnsignedWordElement(1108))),
-				// TODO EvcsWebastoNext.ChannelId.LAST_ENERGY_SESSION: This register remains 0
-				// during the session,
-				// and set a value at the end. But for the UI we need the
-				// Energy charged during the session is running as well.
-				new FC3ReadRegistersTask(1502, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.LAST_ENERGY_SESSION, new UnsignedWordElement(1502))),
-				new FC3ReadRegistersTask(1504, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.START_TIME, new UnsignedDoublewordElement(1504))),
-				new FC3ReadRegistersTask(1508, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.CHARGE_SESSION_TIME, new UnsignedDoublewordElement(1508))),
-				new FC3ReadRegistersTask(1512, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.END_TIME, new UnsignedDoublewordElement(1512))),
-				new FC3ReadRegistersTask(1620, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.SMART_VEHICLE_DETECTED, new UnsignedWordElement(1620))),
-				new FC3ReadRegistersTask(2000, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.SAFE_CURRENT, new UnsignedWordElement(2000))),
-				new FC3ReadRegistersTask(2002, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(2002))),
-				new FC16WriteRegistersTask(5000, //
-						m(EvcsABBTerraAC.ChannelId.EV_SET_CHARGE_POWER_LIMIT, new UnsignedDoublewordElement(5000))), //
-				new FC6WriteRegisterTask(5004, //
-						m(EvcsABBTerraAC.ChannelId.CHARGE_CURRENT, new UnsignedWordElement(5004))), //
-				new FC6WriteRegisterTask(5006, //
-						m(EvcsABBTerraAC.ChannelId.START_CANCEL_CHARGING_SESSION, new UnsignedWordElement(5006))),
-				new FC3ReadRegistersTask(6000, Priority.LOW, //
-						m(EvcsABBTerraAC.ChannelId.LIFE_BIT, new UnsignedWordElement(6000))), //
-				new FC6WriteRegisterTask(6000, //
-						m(EvcsABBTerraAC.ChannelId.LIFE_BIT, new UnsignedWordElement(6000))) //
+				new FC3ReadRegistersTask(16391, Priority.LOW,
+						m(EvcsABBTerraAC.ChannelId.EV_CHARGE_POWER_LIMIT, new UnsignedDoublewordElement(16391)),
+						m(EvcsABBTerraAC.ChannelId.EVSE_ERROR_CODE, new UnsignedDoublewordElement(16393)),
+						m(EvcsABBTerraAC.ChannelId.CABLE_STATE, new UnsignedDoublewordElement(16395)),
+						m(EvcsABBTerraAC.ChannelId.CHARGE_POINT_STATE, new UnsignedDoublewordElement(16397)),						
+						m(EvcsABBTerraAC.ChannelId.CHARGING_CURRENT_LIMIT, new UnsignedDoublewordElement(16399)),
+						m(EvcsABBTerraAC.ChannelId.CURRENT_L1, new UnsignedDoublewordElement(16401)),
+						m(EvcsABBTerraAC.ChannelId.CURRENT_L2, new UnsignedDoublewordElement(16403)),
+						m(EvcsABBTerraAC.ChannelId.CURRENT_L3, new UnsignedDoublewordElement(16405)),
+						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L1, new UnsignedDoublewordElement(16407)),
+						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L2, new UnsignedDoublewordElement(16409)),
+						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L3, new UnsignedDoublewordElement(16411)),
+						m(Evcs.ChannelId.CHARGE_POWER, new UnsignedDoublewordElement(16413)),
+						m(Evcs.ChannelId.ACTIVE_CONSUMPTION_ENERGY, new UnsignedDoublewordElement(16415)),
+						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(16417))),
+				new FC16WriteRegistersTask(16641,
+						m(EvcsABBTerraAC.ChannelId.SET_CHARGE_CURRENT, new UnsignedDoublewordElement(16641)),
+						m(EvcsABBTerraAC.ChannelId.LOCK_UNLOCK_SOCKET_CABLE, new UnsignedWordElement(16643)),
+						new DummyRegisterElement(16644), 
+						m(EvcsABBTerraAC.ChannelId.START_CANCEL_CHARGING_SESSION, new UnsignedWordElement(16645)),
+						new DummyRegisterElement(16646), 
+						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(16647)))
 		);
 		this.addStatusListener();
 		this.addPhasesListener();
@@ -233,6 +185,9 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 			case CHARGING_PAUSED:
 				this._setStatus(Status.CHARGING_FINISHED);
 				break;
+			case CHARGING_FINISHED:
+				this._setStatus(Status.CHARGING_FINISHED);
+				break;
 			case UNDEFINED:
 			default:
 				this._setStatus(Status.UNDEFINED);
@@ -243,13 +198,13 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 	private void addPhasesListener() {
 		final Consumer<Value<Integer>> setPhases = ignore -> {
 			var phases = 0;
-			if (this.getPowerL1().orElse(0) > DETECT_PHASE_ACTIVITY) {
+			if (this.getCurrentL1().orElse(0) > DETECT_PHASE_ACTIVITY) {
 				phases++;
 			}
-			if (this.getPowerL2().orElse(0) > DETECT_PHASE_ACTIVITY) {
+			if (this.getCurrentL2().orElse(0) > DETECT_PHASE_ACTIVITY) {
 				phases++;
 			}
-			if (this.getPowerL3().orElse(0) > DETECT_PHASE_ACTIVITY) {
+			if (this.getCurrentL3().orElse(0) > DETECT_PHASE_ACTIVITY) {
 				phases++;
 			}
 			if (phases == 0) {
@@ -257,9 +212,9 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 			}
 			this._setPhases(phases);
 		};
-		this.getPowerL1Channel().onUpdate(setPhases);
-		this.getPowerL2Channel().onUpdate(setPhases);
-		this.getPowerL3Channel().onUpdate(setPhases);
+		this.getCurrentL1Channel().onUpdate(setPhases);
+		this.getCurrentL2Channel().onUpdate(setPhases);
+		this.getCurrentL3Channel().onUpdate(setPhases);
 	}
 
 	@Override
@@ -286,10 +241,16 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 	public boolean getConfiguredDebugMode() {
 		return this.config.debugMode();
 	}
-
+	
 	@Override
 	public boolean applyChargePowerLimit(int power) throws Exception {
-		this.setEvSetChargePowerLimit(power);
+
+		var phases = this.getPhasesAsInt();
+		var current = Math.round((power * 1000) / phases / 230f);
+		if (current < 6000) {
+			current = 0;
+		}
+		this.setSetChargeCurrentLimit(current);
 		return true;
 	}
 
@@ -329,16 +290,7 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 		switch (event.getTopic()) {
 		case EdgeEventConstants.TOPIC_CYCLE_EXECUTE_WRITE:
 			this.writeHandler.run();
-			this.updateLifeBit();
 			break;
-		}
-	}
-
-	private void updateLifeBit() {
-		try {
-			this.setLifeBit(DEFAULT_LIFE_BIT);
-		} catch (OpenemsNamedException e) {
-			e.printStackTrace();
 		}
 	}
 }

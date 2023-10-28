@@ -4,12 +4,15 @@ import io.openems.common.types.OptionsEnum;
 
 public enum ChargePointState implements OptionsEnum {
 	UNDEFINED(-1, "Undefined"), //
-	NO_VEHICLE_ATTACHED(0, "No vehicle attached"), //
+	IDLE(0, "Idle"), //
 	NO_PERMISSION(1, "Vehicle attached, no permission (preparing)"), //
-	CHARGING(3, "Charging"), //
-	CHARGING_PAUSED(4, "Charging paused"), //
-	ERROR(7, "Charging error"), //
-	CHARGING_STATION_RESERVED(8, "Charging station reserved") //
+	CHARGING(1024, "Charging at rated current"), //
+	CHARGING_BELOW_RATED_CURRENT(41, "Charging below rated current"), //
+	CHARGING_PAUSED(3, "EV Ready for charge, S2 closed"), //
+	ERROR(5, "Charging error"), //
+	CHARGING_STATION_RESERVED(2, "EV Plug in, EVSE ready for charging"), //
+	NO_VEHICLE_ATTACHED(456, "No Vehicle attached"), //
+	CHARGING_FINISHED(3456, "Charging is finished") //
 	;
 
 	private final int value;

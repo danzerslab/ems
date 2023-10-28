@@ -5,23 +5,18 @@ import io.openems.common.types.OptionsEnum;
 public enum EvseErrorCode implements OptionsEnum {
 	UNDEFINED(-1, "Undefined"), //
 	NO_ERROR(0, "No error"), //
-	POWER_SWITCH_FAILURE(1, "Error internal board supply voltage, 5V Ref Voltage"), //
-	SUPPLY_VOLTAGE_ERROR(2, "Supply voltage error"), //
-	EV_COMMUNICATION_ERROR(3, "EV communication error"), //
-	OVER_VOLTAGE(4, "Over Voltage"), //
-	UNDER_VOLTAGE(5, "Under Voltage"), //
-	OVER_CURRENT_FALIURE(6, "Over current faliure"), //
-	OTHER_ERROR(7, "Other error"), //
-	GROUND_FAILURE(8, "Ground failure"), //
-	RCD_MODULE_ERROR(9, "Error RCD modulel"), //
-	HIGH_TEMPERATURE(10, "Error overtemperature"), //
-	PROXIMIOTY_PILOT_ERROR(11, "Proximity Pilot Error"), //
-	SHUTTER_ERROR(12, "Shutter Error"), //
-	THREE_PHASE_CHECK_ERROR(13, "Three phase check error"), //
-	PWR_INTERNAL_ERROR(14, "PWR internal error"), //
-	NEGATIVE_CONTROL_PILOT_OUT_OF_RANGE(15, "negative control pilot out of range"), //
-	// RELAY_WELDED_OPEN_ERRPR(16,"relay welded open"), //
-	DC_RESIDUAL_CURRENT(16, "DC residual current")//
+	RESIDUAL_CURRENT(2, "Error Code 0x0002: There is a residual current in the charge circuit."),//
+	PE_MISSING(4, "Error Code 0x0004: The EVSE is not earthed correctly or neutral and phase wires are swapped."),//
+	OVER_VOLTAGE(8, "Error Code 0x0008: Over Voltage"), //
+	UNDER_VOLTAGE(16, "Error Code 0x0010: Under Voltage"), //	
+	OVER_CURRENT_FALIURE(32, "Error Code 0x0020: There is an overload on the EV side."), //	
+	SEVERE_OVER_CURRENT(64, "Error Code 0x0040: There is an severe overload on the EV side."),//
+	OVER_TEMPERATURE(128, "Error Code 0x0080: The internal temperature is too high."),//
+	POWER_RELAY_FAULT(1024, "Error Code 0x0400: The relay contact is detected in wrong state or has damage."),//
+	INTERNAL_COMMUNICATION_FAILURE(2048, "Error Code 0x0800: The internal boards of the EVSE fail to communicate with each other."),//
+	E_LOCK_FAILURE(4096, "Error Code 0x1000: Error to lock / unlock the charge connector."),//
+	MISSING_PHASE(8192, "Error Code 0x2000: One or more phases are missing."),//
+	MODBUS_COMMUNICATION_LOST(16384, "Error Code 0x4000: The modbus communication is lost.")//
 	;
 
 	private final int value;

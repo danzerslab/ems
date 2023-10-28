@@ -2,17 +2,16 @@ package io.openems.edge.evcs.abb.terraac.enums;
 
 import io.openems.common.types.OptionsEnum;
 
-public enum EvseState implements OptionsEnum {
+public enum LockUnlockSocketCable implements OptionsEnum {
 	UNDEFINED(-1, "Undefined"), //
-	STARTING(0, "Starting"), //
-	RUNNING(1, "Running"), //
-	ERROR(2, "Error"), //
+	UNLOCK(0, "Unlock the cable / connector"), //
+	LOCK(1, "Lock the cable / connector"), //
 	;
 
 	private final int value;
 	private final String name;
 
-	private EvseState(int value, String name) {
+	private LockUnlockSocketCable(int value, String name) {
 		this.value = value;
 		this.name = name;
 	}

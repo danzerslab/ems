@@ -4,9 +4,8 @@ import io.openems.common.types.OptionsEnum;
 
 public enum StartCancelChargingSession implements OptionsEnum {
 	UNDEFINED(-1, "Undefined"), //
-	NO_ACTION(0, "No action"), //
-	START_CHARGING_SESSION(1, "Start charging session"), //
-	CANCEL_CHARGING_SESSION(2, "Cancel charging session ") //
+	START_CHARGING_SESSION(0, "Start charging session"), //
+	CANCEL_CHARGING_SESSION(1, "Cancel charging session ") //
 	;
 
 	private final int value;

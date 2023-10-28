@@ -111,6 +111,7 @@
 	bnd.identity;id='io.openems.edge.ess.generic',\
 	bnd.identity;id='io.openems.edge.ess.mr.gridcon',\
 	bnd.identity;id='io.openems.edge.ess.sma',\
+	bnd.identity;id='io.openems.edge.evcs.abb.terraac',\
 	bnd.identity;id='io.openems.edge.evcs.alpitronic.hypercharger',\
 	bnd.identity;id='io.openems.edge.evcs.cluster',\
 	bnd.identity;id='io.openems.edge.evcs.core',\
@@ -189,7 +190,8 @@
 	osgi.identity;filter:='(&(osgi.identity=org.mongodb.mongo-java-driver)(version>=3.12.3))',\
 	osgi.identity;filter:='(&(osgi.identity=org.osgi.compendium)(version>=4.1.0))',\
 	osgi.identity;filter:='(&(osgi.identity=org.osgi.service.coordinator)(version>=1.0.2))',\
-	osgi.identity;filter:='(&(osgi.identity=osgi.cmpn)(version>=7.0.0))'
+	osgi.identity;filter:='(&(osgi.identity=osgi.cmpn)(version>=7.0.0))',\
+
 -runbundles: \
 	Java-WebSocket;version='[1.5.4,1.5.5)',\
 	com.fazecast.jSerialComm;version='[2.5.1,2.5.2)',\
@@ -278,6 +280,7 @@
 	io.openems.edge.ess.generic;version=snapshot,\
 	io.openems.edge.ess.mr.gridcon;version=snapshot,\
 	io.openems.edge.ess.sma;version=snapshot,\
+	io.openems.edge.evcs.abb.terraac;version=snapshot,\
 	io.openems.edge.evcs.alpitronic.hypercharger;version=snapshot,\
 	io.openems.edge.evcs.api;version=snapshot,\
 	io.openems.edge.evcs.cluster;version=snapshot,\
