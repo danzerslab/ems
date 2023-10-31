@@ -17,6 +17,7 @@ import { QueryHistoricTimeseriesDataResponse } from '../../jsonrpc/response/quer
 import { QueryHistoricTimeseriesEnergyResponse } from '../../jsonrpc/response/queryHistoricTimeseriesEnergyResponse';
 import { ChartAxis, HistoryUtils, YAxisTitle } from '../../service/utils';
 import { ChannelAddress, Edge, EdgeConfig, Service, Utils } from "../../shared";
+import { DateUtils } from '../../utils/dateutils/dateutils';
 
 // NOTE: Auto-refresh of widgets is currently disabled to reduce server load
 @Directive()
@@ -44,7 +45,7 @@ export abstract class AbstractHistoryChart implements OnInit {
   protected isDataExisting: boolean = true;
   protected config: EdgeConfig = null;
   protected errorResponse: JsonrpcResponseError | null = null;
-  protected readonly phaseColors: string[] = ['rgb(255,127,80)', 'rgb(0,0,255)', 'rgb(128,128,0)'];
+  protected static phaseColors: string[] = ['rgb(255,127,80)', 'rgb(0,0,255)', 'rgb(128,128,0)'];
 
   private legendOptions: { label: string, strokeThroughHidingStyle: boolean, hideLabelInLegend: boolean }[] = [];
   private channelData: { data: { [name: string]: number[] } } = { data: {} };
@@ -346,7 +347,7 @@ export abstract class AbstractHistoryChart implements OnInit {
       this.service.getCurrentEdge().then(edge => {
         this.service.getConfig().then(async () => {
           let channelAddresses = (await this.getChannelAddresses()).powerChannels;
-          let request = new QueryHistoricTimeseriesDataRequest(fromDate, toDate, channelAddresses, resolution);
+          let request = new QueryHistoricTimeseriesDataRequest(DateUtils.maxDate(fromDate, this.edge?.firstSetupProtocol), toDate, channelAddresses, resolution);
           edge.sendRequest(this.service.websocket, request).then(response => {
             let result = (response as QueryHistoricTimeseriesDataResponse)?.result;
             if (Object.keys(result).length != 0) {
@@ -394,7 +395,7 @@ export abstract class AbstractHistoryChart implements OnInit {
         this.service.getConfig().then(async () => {
 
           let channelAddresses = (await this.getChannelAddresses()).energyChannels.filter(element => element != null);
-          let request = new QueryHistoricTimeseriesEnergyPerPeriodRequest(fromDate, toDate, channelAddresses, resolution);
+          let request = new QueryHistoricTimeseriesEnergyPerPeriodRequest(DateUtils.maxDate(fromDate, this.edge?.firstSetupProtocol), toDate, channelAddresses, resolution);
           if (channelAddresses.length > 0) {
 
             edge.sendRequest(this.service.websocket, request).then(response => {
@@ -446,7 +447,7 @@ export abstract class AbstractHistoryChart implements OnInit {
         this.service.getConfig().then(async () => {
 
           let channelAddresses = (await this.getChannelAddresses()).energyChannels?.filter(element => element != null) ?? [];
-          let request = new QueryHistoricTimeseriesEnergyRequest(fromDate, toDate, channelAddresses);
+          let request = new QueryHistoricTimeseriesEnergyRequest(DateUtils.maxDate(fromDate, edge?.firstSetupProtocol), toDate, channelAddresses);
           if (channelAddresses.length > 0) {
             edge.sendRequest(this.service.websocket, request).then(response => {
               let result = (response as QueryHistoricTimeseriesEnergyResponse)?.result;
@@ -498,7 +499,6 @@ export abstract class AbstractHistoryChart implements OnInit {
 
   public static getOptions(chartObject: HistoryUtils.ChartData, chartType: 'line' | 'bar', service: Service,
     translate: TranslateService, legendOptions: { label: string, strokeThroughHidingStyle: boolean }[], channelData: { data: { [name: string]: number[] } }): ChartOptions {
-
 
     let tooltipsLabel: string | null = null;
     let options = Utils.deepCopy(<ChartOptions>Utils.deepCopy(DEFAULT_TIME_CHART_OPTIONS_WITHOUT_PREDEFINED_Y_AXIS));
