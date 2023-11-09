@@ -54,7 +54,7 @@
                 "src/assets",
                 {
                   "glob": "**/*",
-                  "input": "src/themes/openems/root",
+                  "input": "src/themes/baybattems/root",
                   "output": ""
                 },
                 {
@@ -65,11 +65,11 @@
               ],
               "stylePreprocessorOptions": {
                 "includePaths": [
-                  "src/themes/openems/scss"
+                  "src/themes/baybattems/scss"
                 ]
               },
               "styles": [
-                "src/themes/openems/scss/variables.scss",
+                "src/themes/baybattems/scss/variables.scss",
                 "src/global.scss"
               ]
             },
@@ -77,11 +77,11 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
-                  "with": "src/themes/openems/environments/theme.ts"
+                  "with": "src/themes/baybattems/environments/theme.ts"
                 },
                 {
                   "replace": "src/environments/dummy.ts",
-                  "with": "src/themes/openems/environments/backend-dev.ts"
+                  "with": "src/themes/baybattems/environments/backend-dev.ts"
                 }
               ]
             },
@@ -89,11 +89,11 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
-                  "with": "src/themes/openems/environments/theme.ts"
+                  "with": "src/themes/baybattems/environments/theme.ts"
                 },
                 {
                   "replace": "src/environments/dummy.ts",
-                  "with": "src/themes/openems/environments/backend-prod.ts"
+                  "with": "src/themes/baybattems/environments/backend-prod.ts"
                 }
               ]
             },
@@ -101,11 +101,11 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
-                  "with": "src/themes/openems/environments/theme.ts"
+                  "with": "src/themes/baybattems/environments/theme.ts"
                 },
                 {
                   "replace": "src/environments/dummy.ts",
-                  "with": "src/themes/openems/environments/edge-dev.ts"
+                  "with": "src/themes/baybattems/environments/edge-dev.ts"
                 }
               ]
             },
@@ -113,11 +113,11 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
-                  "with": "src/themes/openems/environments/theme.ts"
+                  "with": "src/themes/baybattems/environments/theme.ts"
                 },
                 {
                   "replace": "src/environments/dummy.ts",
-                  "with": "src/themes/openems/environments/edge-prod.ts"
+                  "with": "src/themes/baybattems/environments/edge-prod.ts"
                 }
               ]
             },
@@ -125,11 +125,11 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
-                  "with": "src/themes/openems/environments/theme.ts"
+                  "with": "src/themes/baybattems/environments/theme.ts"
                 },
                 {
                   "replace": "src/environments/dummy.ts",
-                  "with": "src/themes/openems/environments/gitpod.ts"
+                  "with": "src/themes/baybattems/environments/gitpod.ts"
                 }
               ]
             }
