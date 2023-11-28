@@ -9,7 +9,7 @@ import { OverviewComponent as AutarchyChartOverviewComponent } from './edge/hist
 import { OverviewComponent as GridChartOverviewComponent } from './edge/history/common/grid/overview/overview';
 import { OverviewComponent as ProductionChartOverviewComponent } from './edge/history/common/production/overview/overview';
 import { OverviewComponent as SelfconsumptionChartOverviewComponent } from './edge/history/common/selfconsumption/overview/overview';
-import { ConsumptionChartOverviewComponent } from './edge/history/consumption/consumptionchartoverview/consumptionchartoverview.component';
+import { OverviewComponent as ConsumptionChartOverviewComponent } from './edge/history/common/consumption/overview/overview';
 import { DelayedSellToGridChartOverviewComponent } from './edge/history/delayedselltogrid/symmetricpeakshavingchartoverview/delayedselltogridchartoverview.component';
 import { FixDigitalOutputChartOverviewComponent } from './edge/history/fixdigitaloutput/fixdigitaloutputchartoverview/fixdigitaloutputchartoverview.component';
 import { GridOptimizedChargeChartOverviewComponent } from './edge/history/gridoptimizedcharge/gridoptimizedchargechartoverview/gridoptimizedchargechartoverview.component';
@@ -68,13 +68,13 @@ const routes: Routes = [
       {
         path: 'live', data: { navbarTitle: environment.uiTitle }, providers: [{
           useClass: LiveDataService,
-          provide: DataService
-        }], component: EdgeLiveComponent
+          provide: DataService,
+        }], component: EdgeLiveComponent,
       },
       {
         path: 'history', providers: [{
           useClass: HistoryDataService,
-          provide: DataService
+          provide: DataService,
         }], component: HistoryParentComponent, children: [
           { path: '', component: EdgeHistoryComponent },
           // History Chart Pages
@@ -94,8 +94,8 @@ const routes: Routes = [
           { path: 'gridchart', component: GridChartOverviewComponent },
           { path: 'productionchart', component: ProductionChartOverviewComponent },
           { path: 'selfconsumptionchart', component: SelfconsumptionChartOverviewComponent },
-          { path: 'storagechart', component: StorageChartOverviewComponent }
-        ]
+          { path: 'storagechart', component: StorageChartOverviewComponent },
+        ],
       },
 
       { path: 'settings', data: { navbarTitleToBeTranslated: 'Menu.edgeSettings' }, component: EdgeSettingsComponent },
@@ -114,21 +114,21 @@ const routes: Routes = [
       { path: 'settings/app/install/:appId', component: EdgeSettingsAppInstall },
       { path: 'settings/app/update/:appId', component: EdgeSettingsAppUpdate },
       { path: 'settings/app/single/:appId', component: EdgeSettingsAppSingle },
-      { path: 'settings/alerting', component: EdgeSettingsAlerting }
-    ]
+      { path: 'settings/alerting', component: EdgeSettingsAlerting },
+    ],
   },
 
   { path: 'demo', component: LoginComponent },
   // Fallback
-  { path: '**', pathMatch: 'full', redirectTo: 'login' }
+  { path: '**', pathMatch: 'full', redirectTo: 'login' },
 ];
 
 export const appRoutingProviders: any[] = [];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
