@@ -136,7 +136,7 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 	protected ModbusProtocol defineModbusProtocol() throws OpenemsException {
 		var modbusProtocol = new ModbusProtocol(this, //
 				new FC3ReadRegistersTask(16390, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.EV_CHARGE_POWER_LIMIT, new UnsignedDoublewordElement(16390)),
+						m(EvcsABBTerraAC.ChannelId.EV_CHARGE_CURRENT_LIMIT, new UnsignedDoublewordElement(16390)),
 						m(EvcsABBTerraAC.ChannelId.EVSE_ERROR_CODE, new UnsignedDoublewordElement(16392)),
 						m(EvcsABBTerraAC.ChannelId.CABLE_STATE, new UnsignedDoublewordElement(16394)),
 						m(EvcsABBTerraAC.ChannelId.CHARGE_POINT_STATE, new UnsignedDoublewordElement(16396)),						
@@ -153,7 +153,7 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 				new FC16WriteRegistersTask(16640,
 						m(EvcsABBTerraAC.ChannelId.SET_CHARGE_CURRENT, new UnsignedDoublewordElement(16640)),
 						m(EvcsABBTerraAC.ChannelId.LOCK_UNLOCK_SOCKET_CABLE, new UnsignedWordElement(16642)),
-						new DummyRegisterElement(16643), 
+						new DummyRegisterElement(16643),  
 						m(EvcsABBTerraAC.ChannelId.START_CANCEL_CHARGING_SESSION, new UnsignedWordElement(16644)),
 						new DummyRegisterElement(16645), 
 						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT_SET, new UnsignedWordElement(16646)))

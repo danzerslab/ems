@@ -34,8 +34,8 @@ public interface EvcsABBTerraAC extends OpenemsComponent {
 		START_CANCEL_CHARGING_SESSION(Doc.of(StartCancelChargingSession.values())//
 				.accessMode(AccessMode.WRITE_ONLY)), //
 		
-		EV_CHARGE_POWER_LIMIT(Doc.of(OpenemsType.INTEGER) //
-				.unit(Unit.WATT) //
+		EV_CHARGE_CURRENT_LIMIT(Doc.of(OpenemsType.INTEGER) //
+				.unit(Unit.MILLIAMPERE) //
 				.accessMode(AccessMode.READ_ONLY)), //
 		
 		CHARGING_CURRENT_LIMIT(Doc.of(OpenemsType.INTEGER) //
