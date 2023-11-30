@@ -24,6 +24,7 @@ import io.openems.common.exceptions.OpenemsError.OpenemsNamedException;
 import io.openems.common.exceptions.OpenemsException;
 import io.openems.edge.bridge.modbus.api.AbstractOpenemsModbusComponent;
 import io.openems.edge.bridge.modbus.api.BridgeModbus;
+import io.openems.edge.bridge.modbus.api.ElementToChannelConverter;
 import io.openems.edge.bridge.modbus.api.ModbusComponent;
 import io.openems.edge.bridge.modbus.api.ModbusProtocol;
 import io.openems.edge.bridge.modbus.api.element.DummyRegisterElement;
@@ -134,28 +135,28 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 	@Override
 	protected ModbusProtocol defineModbusProtocol() throws OpenemsException {
 		var modbusProtocol = new ModbusProtocol(this, //
-				new FC3ReadRegistersTask(16389, Priority.LOW,
-						m(EvcsABBTerraAC.ChannelId.EV_CHARGE_POWER_LIMIT, new UnsignedDoublewordElement(16389)),
-						m(EvcsABBTerraAC.ChannelId.EVSE_ERROR_CODE, new UnsignedDoublewordElement(16391)),
-						m(EvcsABBTerraAC.ChannelId.CABLE_STATE, new UnsignedDoublewordElement(16393)),
-						m(EvcsABBTerraAC.ChannelId.CHARGE_POINT_STATE, new UnsignedDoublewordElement(16395)),						
-						m(EvcsABBTerraAC.ChannelId.CHARGING_CURRENT_LIMIT, new UnsignedDoublewordElement(16397)),
-						m(EvcsABBTerraAC.ChannelId.CURRENT_L1, new UnsignedDoublewordElement(16399)),
-						m(EvcsABBTerraAC.ChannelId.CURRENT_L2, new UnsignedDoublewordElement(16401)),
-						m(EvcsABBTerraAC.ChannelId.CURRENT_L3, new UnsignedDoublewordElement(16403)),
-						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L1, new UnsignedDoublewordElement(16405)),
-						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L2, new UnsignedDoublewordElement(16407)),
-						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L3, new UnsignedDoublewordElement(16409)),
-						m(Evcs.ChannelId.CHARGE_POWER, new UnsignedDoublewordElement(16411)),
-						m(Evcs.ChannelId.ACTIVE_CONSUMPTION_ENERGY, new UnsignedDoublewordElement(16413)),
-						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(16415))),
-				new FC16WriteRegistersTask(16641,
-						m(EvcsABBTerraAC.ChannelId.SET_CHARGE_CURRENT, new UnsignedDoublewordElement(16641)),
-						m(EvcsABBTerraAC.ChannelId.LOCK_UNLOCK_SOCKET_CABLE, new UnsignedWordElement(16643)),
-						new DummyRegisterElement(16644), 
-						m(EvcsABBTerraAC.ChannelId.START_CANCEL_CHARGING_SESSION, new UnsignedWordElement(16645)),
-						new DummyRegisterElement(16646), 
-						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(16647)))
+				new FC3ReadRegistersTask(16390, Priority.LOW,
+						m(EvcsABBTerraAC.ChannelId.EV_CHARGE_POWER_LIMIT, new UnsignedDoublewordElement(16390)),
+						m(EvcsABBTerraAC.ChannelId.EVSE_ERROR_CODE, new UnsignedDoublewordElement(16392)),
+						m(EvcsABBTerraAC.ChannelId.CABLE_STATE, new UnsignedDoublewordElement(16394)),
+						m(EvcsABBTerraAC.ChannelId.CHARGE_POINT_STATE, new UnsignedDoublewordElement(16396)),						
+						m(EvcsABBTerraAC.ChannelId.CHARGING_CURRENT_LIMIT, new UnsignedDoublewordElement(16398)),
+						m(EvcsABBTerraAC.ChannelId.CURRENT_L1, new UnsignedDoublewordElement(16400)),
+						m(EvcsABBTerraAC.ChannelId.CURRENT_L2, new UnsignedDoublewordElement(16402)),
+						m(EvcsABBTerraAC.ChannelId.CURRENT_L3, new UnsignedDoublewordElement(16404)),
+						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L1, new UnsignedDoublewordElement(16406),ElementToChannelConverter.SCALE_FACTOR_MINUS_1),
+						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L2, new UnsignedDoublewordElement(16408),ElementToChannelConverter.SCALE_FACTOR_MINUS_1),
+						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L3, new UnsignedDoublewordElement(16410),ElementToChannelConverter.SCALE_FACTOR_MINUS_1),
+						m(Evcs.ChannelId.CHARGE_POWER, new UnsignedDoublewordElement(16412)),
+						m(Evcs.ChannelId.ACTIVE_CONSUMPTION_ENERGY, new UnsignedDoublewordElement(16414)),
+						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(16416))),
+				new FC16WriteRegistersTask(16640,
+						m(EvcsABBTerraAC.ChannelId.SET_CHARGE_CURRENT, new UnsignedDoublewordElement(16640)),
+						m(EvcsABBTerraAC.ChannelId.LOCK_UNLOCK_SOCKET_CABLE, new UnsignedWordElement(16642)),
+						new DummyRegisterElement(16643), 
+						m(EvcsABBTerraAC.ChannelId.START_CANCEL_CHARGING_SESSION, new UnsignedWordElement(16644)),
+						new DummyRegisterElement(16645), 
+						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT_SET, new UnsignedWordElement(16646)))
 		);
 		this.addStatusListener();
 		this.addPhasesListener();
@@ -172,19 +173,19 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 			case CHARGING:
 				this._setStatus(Status.CHARGING);
 				break;
-			case NO_PERMISSION:
+			/*case NO_PERMISSION:
 			case CHARGING_STATION_RESERVED:
 				this._setStatus(Status.CHARGING_REJECTED);
 				break;
 			case ERROR:
 				this._setStatus(Status.ERROR);
-				break;
+				break;*/
 			case NO_VEHICLE_ATTACHED:
-				this._setStatus(Status.NOT_READY_FOR_CHARGING);
+				this._setStatus(Status.STARTING);
 				break;
-			case CHARGING_PAUSED:
-				this._setStatus(Status.CHARGING_FINISHED);
-				break;
+			/*case CHARGING_PAUSED:
+				this._setStatus(Status.READY_FOR_CHARGING);
+				break;*/
 			case CHARGING_FINISHED:
 				this._setStatus(Status.CHARGING_FINISHED);
 				break;

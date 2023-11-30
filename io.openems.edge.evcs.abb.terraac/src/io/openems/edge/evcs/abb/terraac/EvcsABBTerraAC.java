@@ -68,10 +68,14 @@ public interface EvcsABBTerraAC extends OpenemsComponent {
 
 		COM_TIMEOUT(Doc.of(OpenemsType.INTEGER)//
 				.unit(Unit.SECONDS)//
-				.accessMode(AccessMode.READ_WRITE)), //
+				.accessMode(AccessMode.READ_ONLY)), //
 
 		SET_CHARGE_CURRENT(Doc.of(OpenemsType.INTEGER)//
 				.unit(Unit.MILLIAMPERE)//
+				.accessMode(AccessMode.WRITE_ONLY)), //
+		
+		COM_TIMEOUT_SET(Doc.of(OpenemsType.INTEGER)//
+				.unit(Unit.SECONDS)//
 				.accessMode(AccessMode.WRITE_ONLY)), //
 		;
 
