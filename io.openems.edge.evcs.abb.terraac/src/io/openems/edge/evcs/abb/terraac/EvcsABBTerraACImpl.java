@@ -58,7 +58,7 @@ import io.openems.edge.evcs.abb.terraac.enums.ChargePointState;
 public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 		implements EvcsABBTerraAC, Evcs, ManagedEvcs, ModbusComponent, OpenemsComponent, EventHandler {
 
-	private static final int DETECT_PHASE_ACTIVITY = 100; // mA
+	private static final int DETECT_PHASE_ACTIVITY = 150; // mA
 
 	private final Logger log = LoggerFactory.getLogger(EvcsABBTerraAC.class);
 
@@ -148,7 +148,7 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L2, new UnsignedDoublewordElement(16408),ElementToChannelConverter.SCALE_FACTOR_MINUS_1),
 						m(EvcsABBTerraAC.ChannelId.VOLTAGE_L3, new UnsignedDoublewordElement(16410),ElementToChannelConverter.SCALE_FACTOR_MINUS_1),
 						m(Evcs.ChannelId.CHARGE_POWER, new UnsignedDoublewordElement(16412)),
-						m(Evcs.ChannelId.ACTIVE_CONSUMPTION_ENERGY, new UnsignedDoublewordElement(16414)),
+						m(Evcs.ChannelId.ENERGY_SESSION, new UnsignedDoublewordElement(16414)),
 						m(EvcsABBTerraAC.ChannelId.COM_TIMEOUT, new UnsignedWordElement(16416))),
 				new FC16WriteRegistersTask(16640,
 						m(EvcsABBTerraAC.ChannelId.SET_CHARGE_CURRENT, new UnsignedDoublewordElement(16640)),
@@ -170,22 +170,21 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 			 * Maps the raw state into a {@link Status}.
 			 */
 			switch (state) {
-			case CHARGING:
+			case IDLE:
+				this._setStatus(Status.STARTING);
+				break;
+			case CHARGING_WITH_NOT_ALL_PHASES:
 				this._setStatus(Status.CHARGING);
 				break;
-			/*case NO_PERMISSION:
-			case CHARGING_STATION_RESERVED:
-				this._setStatus(Status.CHARGING_REJECTED);
+			case CHARGING_WITH_NOT_ALL_PHASES_PWM:
+				this._setStatus(Status.CHARGING);
 				break;
-			case ERROR:
-				this._setStatus(Status.ERROR);
-				break;*/
 			case NO_VEHICLE_ATTACHED:
 				this._setStatus(Status.STARTING);
 				break;
-			/*case CHARGING_PAUSED:
-				this._setStatus(Status.READY_FOR_CHARGING);
-				break;*/
+			case CHARGING_BELOW_RATED_CURRENT:
+				this._setStatus(Status.CHARGING);
+				break;
 			case CHARGING_FINISHED:
 				this._setStatus(Status.CHARGING_FINISHED);
 				break;
