@@ -10,7 +10,7 @@ $font-family: var(--ion-font-family);
 
 :root {
   /** primary **/
-  --ion-color-primary: rgb(29, 146, 0);
+  --ion-color-primary: #008557;
   --ion-color-primary-rgb: 232, 174, 106;
   --ion-color-primary-contrast: #000000;
   --ion-color-primary-contrast-rgb: 0, 0, 0;
@@ -18,7 +18,7 @@ $font-family: var(--ion-font-family);
   --ion-color-primary-tint: #009260;
 
   /** secondary **/
-  --ion-color-secondary: #00c27e;
+  --ion-color-secondary: #008557af;
   --ion-color-secondary-rgb: 240, 198, 147;
   --ion-color-secondary-contrast: #000000;
   --ion-color-secondary-contrast-rgb: 0, 0, 0;
@@ -26,7 +26,7 @@ $font-family: var(--ion-font-family);
   --ion-color-secondary-tint: #9eecf2;
 
   /** tertiary **/
-  --ion-color-tertiary: #00ffa6;
+  --ion-color-tertiary: #0085576e;
   --ion-color-tertiary-rgb: 225, 213, 196;
   --ion-color-tertiary-contrast: #000000;
   --ion-color-tertiary-contrast-rgb: 0, 0, 0;
