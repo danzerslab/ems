@@ -173,6 +173,9 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 			case IDLE:
 				this._setStatus(Status.STARTING);
 				break;
+			case IDLE_BELOW_RATED_CURRENT:
+				this._setStatus(Status.STARTING);
+				break;
 			case CHARGING_WITH_NOT_ALL_PHASES:
 				this._setStatus(Status.CHARGING);
 				break;
@@ -189,6 +192,13 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 				this._setStatus(Status.CHARGING_FINISHED);
 				break;
 			case UNDEFINED:
+				break;
+			case NO_PERMISSION:
+				this._setStatus(Status.READY_FOR_CHARGING);
+				break;
+			case NO_PERMISSION_BELOW_RATED_CURRENT:
+				this._setStatus(Status.READY_FOR_CHARGING);
+				break;
 			default:
 				this._setStatus(Status.UNDEFINED);
 			}
@@ -246,9 +256,12 @@ public class EvcsABBTerraACImpl extends AbstractOpenemsModbusComponent
 	public boolean applyChargePowerLimit(int power) throws Exception {
 
 		var phases = this.getPhasesAsInt();
-		var current = Math.round((power * 1000) / phases / 230f);
+		var current = (int)Math.floor((power * 1000) / phases / 230f);
 		if (current < 6000) {
 			current = 0;
+		}
+		if (current >= (this.config.maxHwCurrent()-400)) {
+			current = (this.config.maxHwCurrent()-400);
 		}
 		this.setSetChargeCurrentLimit(current);
 		return true;
