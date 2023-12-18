@@ -11,8 +11,8 @@ public class MyConfig extends AbstractComponentConfig implements Config {
 	protected static class Builder {
 		private String id;
 		private String essId;
+		private String battId;
 		private int current;
-		private int batteryvoltage;
 		private Mode mode;
 		private HybridEssMode hybridEssMode;
 		private Phase phase;
@@ -31,13 +31,12 @@ public class MyConfig extends AbstractComponentConfig implements Config {
 			return this;
 		}
 
-		public Builder setCurrent(int current) {
-			this.current = current;
+		public Builder setBatteryId(String battId) {
+			this.battId = battId;
 			return this;
 		}
-		
-		public Builder setBatteryvoltage(int batteryvoltage) {
-			this.batteryvoltage = batteryvoltage;
+		public Builder setCurrent(int current) {
+			this.current = current;
 			return this;
 		}
 
@@ -86,6 +85,11 @@ public class MyConfig extends AbstractComponentConfig implements Config {
 	public String ess_id() {
 		return this.builder.essId;
 	}
+	
+	@Override
+	public String battery_id() {
+		return this.builder.battId;
+	}
 
 	@Override
 	public String ess_target() {
@@ -95,11 +99,6 @@ public class MyConfig extends AbstractComponentConfig implements Config {
 	@Override
 	public int current() {
 		return this.builder.current;
-	}
-	
-	@Override
-	public int batteryvoltage() {
-		return this.builder.batteryvoltage;
 	}
 
 	@Override

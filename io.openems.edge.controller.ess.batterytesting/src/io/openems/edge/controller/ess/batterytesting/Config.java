@@ -28,12 +28,12 @@ import io.openems.edge.ess.power.api.Relationship;
 
 	@AttributeDefinition(name = "Ess-ID", description = "ID of Ess device.")
 	String ess_id();
+	
+	@AttributeDefinition(name = "Battery-ID", description = "ID of Battery device.")
+	String battery_id();
 
 	@AttributeDefinition(name = "Charge/Discharge Current [mA]", description = "Negative values for Charge; positive for Discharge")
 	int current();
-	
-	@AttributeDefinition(name = "Battervoltage [V]", description = "Batteryvoltage for testing in V")
-	int batteryvoltage();	
 
 	@AttributeDefinition(name = "Power Relationship", description = "Target power must be equal, less-than or greater-than the configured power value")
 	Relationship relationship() default Relationship.EQUALS;

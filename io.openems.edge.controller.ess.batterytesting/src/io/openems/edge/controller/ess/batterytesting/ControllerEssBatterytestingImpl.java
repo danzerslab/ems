@@ -13,6 +13,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.osgi.service.metatype.annotations.Designate;
 
+import io.openems.common.exceptions.InvalidValueException;
 import io.openems.common.exceptions.OpenemsError.OpenemsNamedException;
 import io.openems.edge.common.component.AbstractOpenemsComponent;
 import io.openems.edge.common.component.OpenemsComponent;
@@ -21,6 +22,7 @@ import io.openems.edge.ess.api.HybridEss;
 import io.openems.edge.ess.api.ManagedSymmetricEss;
 import io.openems.edge.ess.api.PowerConstraint;
 import io.openems.edge.ess.power.api.Pwr;
+import io.openems.edge.battery.api.Battery;
 import io.openems.edge.timedata.api.Timedata;
 import io.openems.edge.timedata.api.TimedataProvider;
 import io.openems.edge.timedata.api.utils.CalculateActiveTime;
@@ -44,6 +46,9 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 	private ManagedSymmetricEss ess;
 
 	private Config config;
+	
+	@Reference(policy = ReferencePolicy.STATIC, policyOption = ReferencePolicyOption.GREEDY, cardinality = ReferenceCardinality.MANDATORY)
+	private Battery battery;
 
 	@Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY, cardinality = ReferenceCardinality.OPTIONAL)
 	private volatile Timedata timedata = null;
@@ -74,7 +79,9 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 
 	private boolean applyConfig(ComponentContext context, Config config) {
 		this.config = config;
-		return OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "ess", config.ess_id());
+		boolean ess = OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "ess", config.ess_id());
+		boolean battery =  OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "battery", config.battery_id());
+		return ess && battery;
 	}
 
 	@Override
@@ -90,7 +97,7 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 			isActive = switch (this.config.mode()) {
 			case MANUAL_ON -> {
 				// Apply Active-Power Set-Point
-				var acPower = getAcPower(this.ess, this.config.hybridEssMode(), this.config.current(), this.config.batteryvoltage());
+				var acPower = getAcPower(this.ess, this.battery, this.config.hybridEssMode(), this.config.current());
 				PowerConstraint.apply(this.ess, this.id(), //
 						this.config.phase(), Pwr.ACTIVE, this.config.relationship(), acPower);
 				yield true; // is active
@@ -112,14 +119,16 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 	 * 
 	 * @param ess           	the {@link ManagedSymmetricEss}; checked for
 	 *                      	{@link HybridEss}
+	 * @param battery			the {@link Battery}
 	 * @param hybridEssMode 	the {@link HybridEssMode}
 	 * @param current			the configured current in mA
-	 * @param batteryvoltage	the voltage of the batterypack in V
 	 * @param power         	the calculated target power
 	 * @return the AC power set-point
+	 * @throws InvalidValueException 
 	 */
-	protected static Integer getAcPower(ManagedSymmetricEss ess, HybridEssMode hybridEssMode, int current, int batteryvoltage) {
-		int power = current * batteryvoltage / 1000;
+	protected static int getAcPower(ManagedSymmetricEss ess, Battery battery, HybridEssMode hybridEssMode, int current) throws InvalidValueException {
+		int voltage = battery.getVoltage().getOrError();
+		int power = current * voltage / 1000;
 		switch (hybridEssMode) {
 		case TARGET_AC:
 			return power;
@@ -133,7 +142,7 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 			}
 		}
 
-		return null; /* should never happen */
+		return 0; /* should never happen */
 	}
 
 	@Override
