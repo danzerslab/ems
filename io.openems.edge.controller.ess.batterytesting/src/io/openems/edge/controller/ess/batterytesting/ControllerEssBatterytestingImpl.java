@@ -44,14 +44,14 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 
 	@Reference(policy = ReferencePolicy.STATIC, policyOption = ReferencePolicyOption.GREEDY, cardinality = ReferenceCardinality.MANDATORY)
 	private ManagedSymmetricEss ess;
-
-	private Config config;
 	
 	@Reference(policy = ReferencePolicy.STATIC, policyOption = ReferencePolicyOption.GREEDY, cardinality = ReferenceCardinality.MANDATORY)
 	private Battery battery;
 
 	@Reference(policy = ReferencePolicy.DYNAMIC, policyOption = ReferencePolicyOption.GREEDY, cardinality = ReferenceCardinality.OPTIONAL)
 	private volatile Timedata timedata = null;
+	
+	private Config config;
 
 	public ControllerEssBatterytestingImpl() {
 		super(//
@@ -79,9 +79,9 @@ public class ControllerEssBatterytestingImpl extends AbstractOpenemsComponent
 
 	private boolean applyConfig(ComponentContext context, Config config) {
 		this.config = config;
-		boolean ess = OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "ess", config.ess_id());
-		boolean battery =  OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "battery", config.battery_id());
-		return ess && battery;
+		var ess_config = OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "ess", config.ess_id());
+		var battery_config = OpenemsComponent.updateReferenceFilter(this.cm, this.servicePid(), "battery", config.battery_id());
+		return ess_config && battery_config;
 	}
 
 	@Override

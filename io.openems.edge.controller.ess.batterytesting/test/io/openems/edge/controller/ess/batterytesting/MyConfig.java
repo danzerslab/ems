@@ -95,6 +95,11 @@ public class MyConfig extends AbstractComponentConfig implements Config {
 	public String ess_target() {
 		return ConfigUtils.generateReferenceTargetFilter(this.id(), this.ess_id());
 	}
+	
+	@Override
+	public String battery_target() {
+		return ConfigUtils.generateReferenceTargetFilter(this.id(), this.battery_id());
+	}
 
 	@Override
 	public int current() {
