@@ -1,0 +1,5 @@
+= Constant Current on Battery System
+
+Implements the function to charge/discharge a battery system with a fix current.
+
+https://github.com/OpenEMS/openems/tree/develop/io.openems.edge.controller.ess.constantcurrent[Source Code icon:github[]]
