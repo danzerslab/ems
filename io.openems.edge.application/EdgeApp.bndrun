@@ -112,6 +112,7 @@
 	bnd.identity;id='io.openems.edge.ess.generic',\
 	bnd.identity;id='io.openems.edge.ess.mr.gridcon',\
 	bnd.identity;id='io.openems.edge.ess.sma',\
+	bnd.identity;id='io.openems.edge.evcs.abb.terraac',\
 	bnd.identity;id='io.openems.edge.evcs.alpitronic.hypercharger',\
 	bnd.identity;id='io.openems.edge.evcs.cluster',\
 	bnd.identity;id='io.openems.edge.evcs.core',\
@@ -182,7 +183,9 @@
 	bnd.identity;id='io.openems.edge.timeofusetariff.entsoe',\
 	bnd.identity;id='io.openems.edge.timeofusetariff.tibber',\
 	bnd.identity;id='io.openems.edge.meter.siemens.pac1600',\
+<<<<<<< HEAD
 	bnd.identity;id='io.openems.edge.controller.ess.constantcurrent'
+
 -runbundles: \
 	Java-WebSocket;version='[1.5.4,1.5.5)',\
 	com.fazecast.jSerialComm;version='[2.5.1,2.5.2)',\
@@ -272,6 +275,7 @@
 	io.openems.edge.ess.generic;version=snapshot,\
 	io.openems.edge.ess.mr.gridcon;version=snapshot,\
 	io.openems.edge.ess.sma;version=snapshot,\
+	io.openems.edge.evcs.abb.terraac;version=snapshot,\
 	io.openems.edge.evcs.alpitronic.hypercharger;version=snapshot,\
 	io.openems.edge.evcs.api;version=snapshot,\
 	io.openems.edge.evcs.cluster;version=snapshot,\
@@ -404,5 +408,4 @@
 	reactive-streams;version='[1.0.4,1.0.5)',\
 	rrd4j;version='[3.9.0,3.9.1)',\
 	io.reactivex.rxjava3.rxjava;version='[3.1.6,3.1.7)',\
-	io.openems.edge.meter.siemens.pac1600;version=snapshot,\
 	io.openems.edge.controller.ess.constantcurrent;version=snapshot

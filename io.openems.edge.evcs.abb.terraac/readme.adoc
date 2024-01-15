@@ -1,0 +1,25 @@
+= ABB Terra AC Charging Station
+
+Implementation of the ABB Terra AC electric vehicle charging station.
+
+
+== Compatibility
+
+** https://new.abb.com/ev-charging/de/terra-ac-wandladestation[ABB Terra AC]
+
+=== Technical Data
+
+* Rated current:
+** up to 32A three phases
+* Charging cable or socket : Type 2
+* Max. charging power: 22kW (three phases), 7.4 (single phase)
+* Communication protocol: Modbus TCP/ RTU?
+
+== Additional application notes
+
+The implementation includes:
+
+** Reading actual values from the charging station
+** Setting charge power/current set-points via OpenEMS Edge EVCS Controllers
+
+https://github.com/OpenEMS/openems/tree/develop/io.openems.edge.evcs.abb.terraac[Source Code icon:github[]]
