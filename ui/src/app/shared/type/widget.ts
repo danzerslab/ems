@@ -22,6 +22,7 @@ export enum WidgetFactory {
     'Controller.Asymmetric.PeakShaving',
     'Controller.ChannelThreshold',
     'Controller.CHP.SoC',
+    'Controller.Ess.ConstantCurrent',
     'Controller.Ess.DelayedSellToGrid',
     'Controller.Ess.FixActivePower',
     'Controller.Ess.GridOptimizedCharge',
