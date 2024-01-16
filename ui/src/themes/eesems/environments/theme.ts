@@ -1,7 +1,7 @@
 import { Theme } from 'src/environments';
 
 export const theme = {
-    theme: "EES EMS" as Theme,
+    theme: "OpenEMS" as Theme,
 
     uiTitle: "EES EMS",
     edgeShortName: "EES EMS",
