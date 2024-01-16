@@ -232,7 +232,7 @@ export class Utils {
   /**
    * Adds unit MilliAmpere [mA] to a value.
    * 
-   * @param value the value from passed value in html
+   * @param value the value form passed value in html
    * @returns converted value
    */
   public static CONVERT_TO_MILLIAMPERE = (value: any): string => {
@@ -262,10 +262,10 @@ export class Utils {
     } else {
       return '0 A';
     }
-  };
+  };  
 
   /**
-   * Adds unit Watt [W] to a value.
+   * Converts a value in Watt [W] to KiloWatt [kW].
    * 
    * @param value the value from passed value in html
    * @returns converted value
@@ -358,12 +358,12 @@ export class Utils {
   };
 
   /**
- * Takes a current value and extracts the information if it represents Charge or Discharge.
- * 
- * @param translate the translate service
- * @param current the current
- * @returns an object with charge/discharge information and current value
- */
+   * Takes a current value and extracts the information if it represents Charge or Discharge.
+   * 
+   * @param translate the translate service
+   * @param current the current
+   * @returns an object with charge/discharge information and current value
+   */
   public static convertChargeDischargeCurrent(translate: TranslateService, current: number): { name: string, value: number } {
     if (current >= 0) {
       return { name: translate.instant('General.dischargeCurrent'), value: current };

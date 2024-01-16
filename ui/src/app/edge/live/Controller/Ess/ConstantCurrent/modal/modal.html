@@ -21,7 +21,7 @@
 
   <ng-container *ngIf="formGroup.value.mode === 'MANUAL_ON'">
     <oe-modal-line [name]="'General.current'| translate" [formGroup]="formGroup" controlName="current"
-      [control]="{type: 'INPUT', properties: {unit: 'mA'}}">
+      [control]="{type: 'INPUT_mA', properties: {unit: 'mA'}}">
     </oe-modal-line>
 
     <oe-modal-horizontal-line></oe-modal-horizontal-line>

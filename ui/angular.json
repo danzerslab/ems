@@ -27,7 +27,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "namedChunks": false,
-            "outputPath": "target",
+            "outputPath": "dist/app",
             "polyfills": "src/polyfills.ts",
             "scripts": [],
             "tsConfig": "tsconfig.app.json",
@@ -54,6 +54,90 @@
                 "src/assets",
                 {
                   "glob": "**/*",
+                  "input": "src/themes/openems/root",
+                  "output": ""
+                },
+                {
+                  "glob": "**/*.svg",
+                  "input": "node_modules/ionicons/dist/ionicons/svg",
+                  "output": "./svg"
+                }
+              ],
+              "stylePreprocessorOptions": {
+                "includePaths": [
+                  "src/themes/openems/scss"
+                ]
+              },
+              "styles": [
+                "src/themes/openems/scss/variables.scss",
+                "src/global.scss"
+              ]
+            },
+            "openems-backend-dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/theme.ts",
+                  "with": "src/themes/openems/environments/theme.ts"
+                },
+                {
+                  "replace": "src/environments/dummy.ts",
+                  "with": "src/themes/openems/environments/backend-dev.ts"
+                }
+              ]
+            },
+            "openems-backend-prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/theme.ts",
+                  "with": "src/themes/openems/environments/theme.ts"
+                },
+                {
+                  "replace": "src/environments/dummy.ts",
+                  "with": "src/themes/openems/environments/backend-prod.ts"
+                }
+              ]
+            },
+            "openems-edge-dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/theme.ts",
+                  "with": "src/themes/openems/environments/theme.ts"
+                },
+                {
+                  "replace": "src/environments/dummy.ts",
+                  "with": "src/themes/openems/environments/edge-dev.ts"
+                }
+              ]
+            },
+            "openems-edge-prod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/theme.ts",
+                  "with": "src/themes/openems/environments/theme.ts"
+                },
+                {
+                  "replace": "src/environments/dummy.ts",
+                  "with": "src/themes/openems/environments/edge-prod.ts"
+                }
+              ]
+            },
+            "openems-gitpod": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/theme.ts",
+                  "with": "src/themes/openems/environments/theme.ts"
+                },
+                {
+                  "replace": "src/environments/dummy.ts",
+                  "with": "src/themes/openems/environments/gitpod.ts"
+                }
+              ]
+            },
+            "eesems": {
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "**/*",
                   "input": "src/themes/eesems/root",
                   "output": ""
                 },
@@ -73,7 +157,7 @@
                 "src/global.scss"
               ]
             },
-            "openems-backend-dev": {
+            "eesems-backend-dev": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
@@ -85,7 +169,7 @@
                 }
               ]
             },
-            "openems-backend-prod": {
+            "eesems-backend-prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
@@ -97,7 +181,7 @@
                 }
               ]
             },
-            "openems-edge-dev": {
+            "eesems-edge-dev": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
@@ -109,7 +193,7 @@
                 }
               ]
             },
-            "openems-edge-prod": {
+            "eesems-edge-prod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
@@ -121,7 +205,7 @@
                 }
               ]
             },
-            "openems-gitpod": {
+            "eesems-gitpod": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/theme.ts",
@@ -155,6 +239,21 @@
             },
             "openems-gitpod": {
               "browserTarget": "app:build:openems,openems-gitpod"
+            },
+            "eesems-backend-dev": {
+              "browserTarget": "app:build:eesems,eesems-backend-dev"
+            },
+            "eesems-edge-dev": {
+              "browserTarget": "app:build:eesems,eesems-edge-dev"
+            },
+            "eesems-backend-prod": {
+              "browserTarget": "app:build:eesems,eesems-backend-prod,prod"
+            },
+            "eesems-edge-prod": {
+              "browserTarget": "app:build:eesems,eesems-edge-prod,prod"
+            },
+            "eesems-gitpod": {
+              "browserTarget": "app:build:eesems,eesems-gitpod"
             }
           }
         },
