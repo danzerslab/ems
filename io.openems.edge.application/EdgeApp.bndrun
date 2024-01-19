@@ -183,7 +183,8 @@
 	bnd.identity;id='io.openems.edge.timeofusetariff.entsoe',\
 	bnd.identity;id='io.openems.edge.timeofusetariff.tibber',\
 	bnd.identity;id='io.openems.edge.controller.ess.constantcurrent',\
-	bnd.identity;id='io.openems.edge.evcs.abb.terraac'
+	bnd.identity;id='io.openems.edge.evcs.abb.terraac',\
+	bnd.identity;id='io.openems.edge.controller.ess.controllbyexternal'
 -runbundles: \
 	Java-WebSocket;version='[1.5.4,1.5.5)',\
 	bcpkix;version='[1.70.0,1.70.1)',\
@@ -410,4 +411,5 @@
 	reactive-streams;version='[1.0.4,1.0.5)',\
 	rrd4j;version='[3.9.0,3.9.1)',\
 	io.openems.edge.controller.ess.constantcurrent;version=snapshot,\
-	io.openems.edge.evcs.abb.terraac;version=snapshot
+	io.openems.edge.evcs.abb.terraac;version=snapshot,\
+	io.openems.edge.controller.ess.controllbyexternal;version=snapshot
