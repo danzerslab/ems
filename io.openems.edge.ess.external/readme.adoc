@@ -1,0 +1,11 @@
+= External Batteriesystem Modell
+
+Implemented Natures::
+- SymmetricEss
+- ManagedSymmetricEss
+- AsymetricEss
+- ManagedAsymetricEss
+- SinglePhaseEss
+- ManagedSinglePhaseEss
+
+https://github.com/OpenEMS/openems/tree/develop/io.openems.edge.ess.external[Source Code icon:github[]]
