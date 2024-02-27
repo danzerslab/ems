@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/io/openems/edge/ess/external/Config.java=UTF-8
+encoding//src/io/openems/edge/ess/external/SimulatorEssExternal.java=UTF-8
+encoding//src/io/openems/edge/ess/external/SimulatorEssExternalImpl.java=UTF-8
+encoding//test/io/openems/edge/ess/external/MyConfig.java=UTF-8
+encoding//test/io/openems/edge/ess/external/SimulatorEssExternalImplTest.java=UTF-8
+encoding/<project>=UTF-8
+encoding/bnd.bnd=UTF-8
+encoding/readme.adoc=UTF-8
