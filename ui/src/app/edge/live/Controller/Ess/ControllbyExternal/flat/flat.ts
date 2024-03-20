@@ -3,6 +3,8 @@ import { AbstractFlatWidget } from 'src/app/shared/genericComponents/flat/abstra
 import { DefaultTypes } from 'src/app/shared/service/defaulttypes';
 import { ChannelAddress, CurrentData, Utils } from 'src/app/shared/shared';
 
+import { ModalComponent } from '../modal/modal';
+
 
 @Component({
   selector: 'Controller_Ess_ControllbyExternal',
@@ -26,5 +28,17 @@ export class FlatComponent extends AbstractFlatWidget {
   protected override onCurrentData(currentData: CurrentData) {
     this.chargeDischargePower = Utils.convertChargeDischargePower(this.translate, currentData.allComponents[this.component.id + '/EssActivePowerSetPoint']);
     this.propertyMode = currentData.allComponents[this.component.id + '/_PropertyMode'];
+  }
+  async presentModal() {
+    if (!this.isInitialized) {
+      return;
+    }
+    const modal = await this.modalController.create({
+      component: ModalComponent,
+      componentProps: {
+        component: this.component,
+      },
+    });
+    return await modal.present();
   }
 }
