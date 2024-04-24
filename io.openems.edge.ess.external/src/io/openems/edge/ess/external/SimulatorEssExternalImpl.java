@@ -157,7 +157,8 @@ public class SimulatorEssExternalImpl extends AbstractOpenemsModbusComponent
 				new FC3ReadRegistersTask(1, Priority.LOW, //
 						m(SymmetricEss.ChannelId.MAX_APPARENT_POWER, new UnsignedDoublewordElement(1)), //
 						m(SymmetricEss.ChannelId.ACTIVE_CHARGE_ENERGY, new UnsignedDoublewordElement(3)), //
-						m(SymmetricEss.ChannelId.ACTIVE_DISCHARGE_ENERGY, new UnsignedDoublewordElement(5))), //
+						m(SymmetricEss.ChannelId.ACTIVE_DISCHARGE_ENERGY, new UnsignedDoublewordElement(5)), //
+						m(SymmetricEss.ChannelId.CAPACITY, new UnsignedDoublewordElement(7))), //
 
 				new FC3ReadRegistersTask(10, Priority.HIGH, //
 						m(SymmetricEss.ChannelId.ACTIVE_POWER, new SignedDoublewordElement(10)), //
